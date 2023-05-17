@@ -45,7 +45,7 @@ const NutritionalValuesView: React.FC = () => {
         <>
             <div className='text-center pt-28'>
                 <div className='flex flex-col items-center'>
-                <p className='m-auto w-3/4 md:w-1/3 text-lg text-orange-200'>Search nutritional values for an ingredient</p>
+                    <p className='m-auto w-3/4 md:w-1/3 text-lg text-orange-200'>Search nutritional values for an ingredient</p>
                     <p className='m-auto w-3/4 md:w-1/3 text-lg text-orange-200'>(Example: banana, 1kg banana, 100g banana, 1lb banana)</p>
                     <input type="text" name="" id="" placeholder="Search by name" onChange={(e) => setNutriment(e.target.value)} className='text-black w-3/4 sm:w-1/3 lg:w-72 rounded p-2 mt-4'/>
                 </div>

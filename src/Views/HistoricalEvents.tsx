@@ -4,17 +4,17 @@ import { fetchFacts, FactsObject, HistoricalEvents, fetchHistoricalEventsByName,
 import { AppDispatch } from '../app/store';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 
-interface HistoricalEvents {
-    year: string,
-    month: string,
-    date: string,
-    event: string
-}
-type HistoricalEventsState = {
-    status: "loading" | "idle";
-    error: string | null;
-    list: HistoricalEvents[];
-};
+// interface HistoricalEvents {
+//     year: string,
+//     month: string,
+//     date: string,
+//     event: string
+// }
+// type HistoricalEventsState = {
+//     status: "loading" | "idle";
+//     error: string | null;
+//     list: HistoricalEvents[];
+// };
 
 const HistoricalEventsView: React.FC = () => {
 
@@ -23,21 +23,20 @@ const HistoricalEventsView: React.FC = () => {
     const [text, setText] = useState<string>('')
     const [year, setYear] = useState<number | null>(null)
     const [page, setPage] = useState<number>(1)
-    const [historicalEvent, setHistoricalEvent] = useState<HistoricalEventsState>()
+    // const [historicalEvent, setHistoricalEvent] = useState<HistoricalEventsState>()
     
     const historicalEvents = useSelector(HistoricalEvents)
     const historicalEventsByYear = useSelector(HistoricalEventsByYear)
-    console.log(historicalEvents)
-    console.log(historicalEventsByYear)
     
     const dispatch = useDispatch<AppDispatch>();
     const newHistoricalEventByName = async(text: string | number, page: number) => {
+            setPage(1)
             const payload: {text:string | number, page:number} = {
                 text: text,
                 page: page
             }
             dispatch(fetchHistoricalEventsByName(payload))
-            setHistoricalEvent(historicalEvents)
+            // setHistoricalEvent(historicalEvents)
     }
     const newHistoricalEventByYear = async(text: number | null, page: number) => {
             setPage(1)
@@ -46,28 +45,18 @@ const HistoricalEventsView: React.FC = () => {
                 page: page
             }
             dispatch(fetchHistoricalEventsByYear(payload))
-            setHistoricalEvent(historicalEventsByYear)
+            // setHistoricalEvent(historicalEventsByYear)
         
     }
-    // const newHistoricalEventByYear = async(text: number, page: number) => {
-    //     setPage(1)
-    //     const payload: {text:number, page:number} = {
-    //         text: text,
-    //         page: page
-    //     }
-    //     dispatch(fetchHistoricalEventsByYear(payload))
-    //     setHistoricalEvent(historicalEventsByYear)
-    // }
 
     useEffect(() => {
-        // setTimeout(() => {
             const payload: {text:string | number, page:number} = {
                 text: text,
                 page: page
             }
             if(text !== ''){
                 dispatch(fetchHistoricalEventsByName(payload))
-                setHistoricalEvent(historicalEvents)
+                // setHistoricalEvent(historicalEvents)
                 
             }
             const payload2: {text:number | null, page:number} = {
@@ -76,9 +65,8 @@ const HistoricalEventsView: React.FC = () => {
             }
             if(year !== null){
                 dispatch(fetchHistoricalEventsByYear(payload2))
-                setHistoricalEvent(historicalEventsByYear)
+                // setHistoricalEvent(historicalEventsByYear)
             }
-        // }, 1000);
         
     }, [page])
 

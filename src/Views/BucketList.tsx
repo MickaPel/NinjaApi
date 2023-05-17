@@ -20,27 +20,38 @@ const BucketListView: React.FC = () => {
     
     const bucketsList = useSelector(BucketListObject)
     console.log(bucketsList)
-    console.log(bucketList?.list)
+    console.log(bucketList)
     
     const dispatch = useDispatch<AppDispatch>();
     const newFact = async() => {
         dispatch(fetchBucketList())
-        setBucketList(bucketsList)
+        // setBucketList(bucketsList)
     }
 
     useEffect(() => {
         // setTimeout(() => {
-            newFact()
+            // newFact()
         // }, 1000);
+        dispatch(fetchBucketList())
         
     }, [])
+
+    useEffect(() => {
+        // setTimeout(() => {
+            // newFact()
+        // }, 1000);
+        if(Object.keys(bucketsList.list).length !== 0){
+            console.log("first")
+            setBucketList(bucketsList)
+        }
+    }, [bucketsList])
 
 
     return(
         <>
             <div className='text-center pt-28'>
                 <p className='m-auto w-2/3 text-xl text-orange-200'>
-                    {bucketsList?.list?.item}
+                    {bucketList?.list?.item}
                 </p>
                 <button onClick={() => newFact()} className='mt-10 text-2xl rounded-xl p-2 bg-gray-500 hover:bg-gray-400 text-amber-400'>New Bucket</button>
             </div>

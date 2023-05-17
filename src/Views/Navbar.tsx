@@ -14,8 +14,8 @@ const Navbar: React.FC = () => {
         { id:2, name: "Historical Events", path: "/historical-events"},
         { id:3, name: "Bucket List", path: "/bucket-list"},
         { id:4, name: "Riddles", path: "/riddles"},
-        { id:5, name: "Thesaurus", path: "/facts"},
-        { id:6, name: "Country Informations", path: "/facts"},
+        { id:5, name: "Thesaurus", path: "/thesaurus"},
+        { id:6, name: "Country Informations", path: "/country-informations"},
         { id:7, name: "Nutritional value", path: "/nutritional-values"},
     ]
 

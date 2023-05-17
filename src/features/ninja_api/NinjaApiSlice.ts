@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { RootState } from '../../app/store';
-import { FactsState, Facts, HistoricalEventsState, BucketList, BucketListState, Riddles, RiddlesState, NutritionalValues, NutritionalValuesState } from '../../interfaces/Interfaces';
+import { FactsState, Facts, HistoricalEventsState, BucketList, BucketListState, Riddles, RiddlesState, NutritionalValues, NutritionalValuesState, ThesaurusState, Thesaurus, CountryInformationsState } from '../../interfaces/Interfaces';
 
 const limit = 1;
 const headers = { 'X-Api-Key': '5E9zpzcq8OkGLYRiYqtJqQ==Eu9DG65zVddHSDvh'}
@@ -17,7 +17,7 @@ export const fetchFacts = createAsyncThunk<Facts[]>(
         return response;
     }
 );
-export const fetchBucketList = createAsyncThunk<BucketList[]>(
+export const fetchBucketList = createAsyncThunk<BucketList>(
     "ninjaApi/fetchBucketList",
     async () => {
         const response = await axios.get('https://api.api-ninjas.com/v1/bucketlist', { headers })
@@ -52,6 +52,19 @@ export const fetchNutritionalValue = createAsyncThunk(
     }
 );
 
+export const fetchThesaurus = createAsyncThunk(
+    "ninjaApi/fetchThesaurus",
+    async (text: string) => {
+        // const {text} = payload;
+        // console.log('first')
+        const response = await axios.get('https://api.api-ninjas.com/v1/thesaurus?word=' + text, { headers })
+                                    .then(response => {
+                                        return response.data}
+                                    );
+        return response;
+    }
+);
+
 export const fetchHistoricalEventsByName = createAsyncThunk(
     "ninjaApi/fetchHistoricalEventsByName",
     async (payload: {text: string | number, page: number},) => {
@@ -68,6 +81,18 @@ export const fetchHistoricalEventsByYear = createAsyncThunk(
     async (payload: {text: number | null, page: number},) => {
         const {text, page } = payload;
         const response = await axios.get('https://api.api-ninjas.com/v1/historicalevents?year=' + text + "&offset=" + page, { headers })
+                                    .then(response => {
+                                        return response.data}
+                                    );
+        return response;
+    }
+);
+
+export const fetchCountryInformations = createAsyncThunk(
+    "ninjaApi/fetchCountryInformations",
+    async (text: string) => {
+        // const {text, page } = payload;
+        const response = await axios.get('https://api.api-ninjas.com/v1/country?name=' + text, { headers })
                                     .then(response => {
                                         return response.data}
                                     );
@@ -102,6 +127,11 @@ const NinjaApiSlice = createSlice({
             error: null,
             status: "idle",
         } as NutritionalValuesState,
+        ThesaurusState : {
+            list: {},
+            error: null,
+            status: "idle",
+        } as ThesaurusState,
         HistoricalEventsByNameState : {
             list: [],
             error: null,
@@ -112,6 +142,11 @@ const NinjaApiSlice = createSlice({
             error: null,
             status: "idle",
         } as HistoricalEventsState,
+        CountryInformationsState : {
+            list: [],
+            error: null,
+            status: "idle",
+        } as CountryInformationsState,
     },
     reducers: {
         // increment(state) {
@@ -200,6 +235,20 @@ const NinjaApiSlice = createSlice({
                 state.NutritionalValuesState.status = "idle";
             });
 
+        builder.addCase(fetchThesaurus.pending, (state) => {
+            state.ThesaurusState.status = "loading";
+            state.ThesaurusState.error = null;
+        });
+        builder.addCase(fetchThesaurus.fulfilled,
+            (state, { payload }) => {
+                state.ThesaurusState.list = payload;
+                state.ThesaurusState.status = "idle";
+            });
+        builder.addCase(fetchThesaurus.rejected,
+            (state, { payload }) => {
+                state.ThesaurusState.status = "idle";
+            });
+
 
         builder.addCase(fetchHistoricalEventsByName.pending, (state) => {
             state.HistoricalEventsByNameState.status = "loading";
@@ -229,6 +278,21 @@ const NinjaApiSlice = createSlice({
             (state, { payload }) => {
                 state.HistoricalEventsByYearState.status = "idle";
             });
+
+
+        builder.addCase(fetchCountryInformations.pending, (state) => {
+            state.CountryInformationsState.status = "loading";
+            state.CountryInformationsState.error = null;
+        });
+        builder.addCase(fetchCountryInformations.fulfilled,
+            (state, { payload }) => {
+                state.CountryInformationsState.list = payload;
+                state.CountryInformationsState.status = "idle";
+            });
+        builder.addCase(fetchCountryInformations.rejected,
+            (state, { payload }) => {
+                state.CountryInformationsState.status = "idle";
+            });
     },
 })
 
@@ -237,6 +301,8 @@ export const FactsObject = (state: RootState) => state.ninjaApi.FactsState;
 export const BucketListObject = (state: RootState) => state.ninjaApi.BucketListState;
 export const RiddleObject = (state: RootState) => state.ninjaApi.RiddleState;
 export const NutritionalValuesObject = (state: RootState) => state.ninjaApi.NutritionalValuesState;
+export const ThesaurusObject = (state: RootState) => state.ninjaApi.ThesaurusState;
 export const HistoricalEvents = (state: RootState) => state.ninjaApi.HistoricalEventsByNameState;
 export const HistoricalEventsByYear = (state: RootState) => state.ninjaApi.HistoricalEventsByYearState;
+export const CountryInformations = (state: RootState) => state.ninjaApi.CountryInformationsState;
 export default NinjaApiSlice.reducer
