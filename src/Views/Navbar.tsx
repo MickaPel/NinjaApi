@@ -1,8 +1,4 @@
-import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from "react-redux";
-// import { fetchFacts, Facts, HistoricalEvents, fetchHistoricalEvents } from '../features/ninja_api/NinjaApiSlice';
-import { AppDispatch } from '../app/store';
 import { useNavigate } from 'react-router';
 
 const Navbar: React.FC = () => {
@@ -25,43 +21,6 @@ const Navbar: React.FC = () => {
         e.preventDefault();
         setSelectValue(value)
     }
-
-    // console.log(selectValue)
-    
-    // const limit = 3;
-    // $.ajax({
-    //     method: 'GET',
-    //     url: 'https://api.api-ninjas.com/v1/facts?limit=' + limit,
-    //     headers: { 'X-Api-Key': 'YOUR_API_KEY'},
-    //     contentType: 'application/json',
-    //     success: function(result) {
-    //         console.log(result);
-    //     },
-    //     error: function ajaxError(jqXHR) {
-    //         console.error('Error: ', jqXHR.responseText);
-    //     }
-    // });
-
-    // const headers = { 'X-Api-Key': '5E9zpzcq8OkGLYRiYqtJqQ==Eu9DG65zVddHSDvh'}
-    // axios.get('https://api.api-ninjas.com/v1/facts?limit=' + limit, { headers })
-    //     .then(response => console.log({ facts: response.data }));
-
-    // const facts = useSelector(Facts)
-    // const historicalEvents = useSelector(HistoricalEvents)
-
-    // console.log(facts)
-
-    // const dispatch = useDispatch<AppDispatch>();
-
-    // useEffect(() => {
-    //     dispatch(fetchFacts())
-    //     const payload: {text:string, page:number} = {
-    //         text: 'roman empire',
-    //         page: 1
-    //     }
-    //     dispatch(fetchHistoricalEvents(payload))
-    // }, [])
-    
 
     return (
         <>

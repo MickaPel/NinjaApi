@@ -3,18 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchFacts, FactsObject, HistoricalEvents, fetchHistoricalEventsByName, HistoricalEventsByYear, fetchHistoricalEventsByYear } from '../features/ninja_api/NinjaApiSlice';
 import { AppDispatch } from '../app/store';
 import { ArrowLeft, ArrowRight } from 'react-feather';
-
-// interface HistoricalEvents {
-//     year: string,
-//     month: string,
-//     date: string,
-//     event: string
-// }
-// type HistoricalEventsState = {
-//     status: "loading" | "idle";
-//     error: string | null;
-//     list: HistoricalEvents[];
-// };
+import { HistoricalEventsState } from '../interfaces/Interfaces';
 
 const HistoricalEventsView: React.FC = () => {
 
@@ -25,8 +14,12 @@ const HistoricalEventsView: React.FC = () => {
     const [page, setPage] = useState<number>(1)
     // const [historicalEvent, setHistoricalEvent] = useState<HistoricalEventsState>()
     
+    
     const historicalEvents = useSelector(HistoricalEvents)
     const historicalEventsByYear = useSelector(HistoricalEventsByYear)
+
+    console.log(historicalEvents?.list.length)
+    // console.log(historicalEvent)
     
     const dispatch = useDispatch<AppDispatch>();
     const newHistoricalEventByName = async(text: string | number, page: number) => {
@@ -46,7 +39,6 @@ const HistoricalEventsView: React.FC = () => {
             }
             dispatch(fetchHistoricalEventsByYear(payload))
             // setHistoricalEvent(historicalEventsByYear)
-        
     }
 
     useEffect(() => {
@@ -56,8 +48,6 @@ const HistoricalEventsView: React.FC = () => {
             }
             if(text !== ''){
                 dispatch(fetchHistoricalEventsByName(payload))
-                // setHistoricalEvent(historicalEvents)
-                
             }
             const payload2: {text:number | null, page:number} = {
                 text: year,
@@ -65,7 +55,6 @@ const HistoricalEventsView: React.FC = () => {
             }
             if(year !== null){
                 dispatch(fetchHistoricalEventsByYear(payload2))
-                // setHistoricalEvent(historicalEventsByYear)
             }
         
     }, [page])
@@ -105,22 +94,14 @@ const HistoricalEventsView: React.FC = () => {
                     
                     
                 </div>
-                {/* {historicalEvents?.list?.map((item, id) => {
-                    return(
-                        <div key={id} className='flex flex-col items-start mx-4'>
-                            <p className='underline text-orange-200'>Year: {item.year}</p>
-                            <p className='text-orange-50'>{item.event}</p>
-                        </div>
-                    )
-                })} */}
                 {historicalEvents?.list.length !== 0 && buttonName ?
                     <>
                         <p className='text-lg text-orange-200 underline underline-offset-2 mt-4'>Search for "{text}" :</p>
                         {historicalEvents?.list?.map((item, id) => {
                             return(
-                                    <div key={id} className='flex flex-col items-start mx-4'>
+                                    <div key={id} className='flex flex-col items-start mx-4  md:ml-10'>
                                         <p className='underline text-orange-200'>Year: {item.year}</p>
-                                        <p className='text-orange-50'>{item.event}</p>
+                                        <p className='text-orange-50 text-left'>{item.event}</p>
                                     </div>
                             )
                         })}
@@ -143,7 +124,7 @@ const HistoricalEventsView: React.FC = () => {
                                 <>
                                     <div key={id} className='flex flex-col items-start mx-4'>
                                         <p className='underline text-orange-200'>Year: {item.year}</p>
-                                        <p className='text-orange-50'>{item.event}</p>
+                                        <p className='text-orange-50 text-left'>{item.event}</p>
                                     </div>
                                 </>
                             )
